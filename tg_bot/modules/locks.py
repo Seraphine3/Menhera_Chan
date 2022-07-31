@@ -14,18 +14,18 @@ from tg_bot import dispatcher, SUDO_USERS, LOGGER
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import can_delete, is_user_admin, user_not_admin, user_admin, \
     bot_can_delete, is_bot_admin
+from tg_bot.modules.helper_funcs.filters import CustomFilters
 from tg_bot.modules.log_channel import loggable
 from tg_bot.modules.sql import users_sql
 
 LOCK_TYPES = {'sticker': Filters.sticker,
               'audio': Filters.audio,
               'voice': Filters.voice,
-              'document': Filters.document & ~Filters.animation,
+              'document': Filters.document,
               'video': Filters.video,
-              'videonote': Filters.video_note,
               'contact': Filters.contact,
               'photo': Filters.photo,
-              'gif': Filters.animation,
+              'gif': Filters.document & CustomFilters.mime_type("video/mp4"),
               'url': Filters.entity(MessageEntity.URL) | Filters.caption_entity(MessageEntity.URL),
               'bots': Filters.status_update.new_chat_members,
               'forward': Filters.forwarded,
@@ -33,9 +33,9 @@ LOCK_TYPES = {'sticker': Filters.sticker,
               'location': Filters.location,
               }
 
-GIF = Filters.animation
+GIF = Filters.document & CustomFilters.mime_type("video/mp4")
 OTHER = Filters.game | Filters.sticker | GIF
-MEDIA = Filters.audio | Filters.document | Filters.video | Filters.video_note | Filters.voice | Filters.photo
+MEDIA = Filters.audio | Filters.document | Filters.video | Filters.voice | Filters.photo
 MESSAGES = Filters.text | Filters.contact | Filters.location | Filters.venue | Filters.command | MEDIA | OTHER
 PREVIEWS = Filters.entity("url")
 
@@ -120,7 +120,7 @@ def lock(bot: Bot, update: Update, args: List[str]) -> str:
                     members = users_sql.get_chat_members(str(chat.id))
                     restr_members(bot, chat.id, members, messages=True, media=True, other=True)
 
-                message.reply_text("Locked {} for all non-admins!".format(args[0]))
+                message.reply_text("Locked {} for all non-admins...".format(args[0]))
                 return "<b>{}:</b>" \
                        "\n#LOCK" \
                        "\n<b>Admin:</b> {}" \
@@ -173,7 +173,7 @@ def unlock(bot: Bot, update: Update, args: List[str]) -> str:
                 elif args[0] == "all":
                     unrestr_members(bot, chat.id, members, True, True, True, True)
                 """
-                message.reply_text("Unlocked {} for everyone!".format(args[0]))
+                message.reply_text("Unlocked {} for everyone...enjoy ^`^".format(args[0]))
 
                 return "<b>{}:</b>" \
                        "\n#UNLOCK" \
@@ -203,11 +203,11 @@ def del_lockables(bot: Bot, update: Update):
                     if new_mem.is_bot:
                         if not is_bot_admin(chat, bot.id):
                             message.reply_text("I see a bot, and I've been told to stop them joining... "
-                                               "but I'm not admin!")
+                                               "but I'm not admin...")
                             return
 
                         chat.kick_member(new_mem.id)
-                        message.reply_text("Only admins are allowed to add bots to this chat! Get outta here.")
+                        message.reply_text("Only admins are allowed to add bots to this chat,if you still...Please, just make my job easier  ~_~")
             else:
                 try:
                     message.delete()
@@ -259,7 +259,7 @@ def build_lock_message(chat_id):
                    "\n - forward = `{}`" \
                    "\n - game = `{}`" \
                    "\n - location = `{}`".format(locks.sticker, locks.audio, locks.voice, locks.document,
-                                                 locks.video, locks.videonote, locks.contact, locks.photo, locks.gif, locks.url,
+                                                 locks.video, locks.contact, locks.photo, locks.gif, locks.url,
                                                  locks.bots, locks.forward, locks.game, locks.location)
         if restr:
             res += "\n - messages = `{}`" \
