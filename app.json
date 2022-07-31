@@ -1,0 +1,107 @@
+
+{
+  "name": "Menhera",
+  "logo": "https://camo.githubusercontent.com/cca1123c21441e4767f27af0e5165ddb6a8c1cff2548c3fe36e317eeb909a980/68747470733a2f2f66696c65732e79616e64652e72652f73616d706c652f33613238323738636265663738663335306438353838633734383339653934622f79616e64652e726525323037353733323625323073616d706c652532306d656e686572612d6368616e2e2532306e616e6173655f6b7572756d69253230706f6d75253230746869676868696768732e6a70673f7374796c653d666c61742d737175617265266c6f676f3d707974686f6e26636f6c6f723d626c7565",
+  "description": "Your cute telegram group manager, at your service '_' .",
+  "keywords": [
+    "telegram",
+    "best",
+    "group",
+    "manager",
+    "menhera",
+    "3"
+  ],
+  "repository": "https://github.com/Seraphine3/Menhera-chan-bot",
+  "env": {
+    "ENV": {
+      "description": "Setting this to ANYTHING will enable env variables",
+      "value": ""
+    },
+    "TOKEN": {
+      "description": "Your bot token, as a string.",
+      "value": ""
+    },
+    "OWNER_ID": {
+      "description": "An integer of consisting of your owner ID",
+      "value": "2028101193"
+
+    },
+    "OWNER_USERNAME": {
+      "description": "Your username",
+      "required": true,
+      "value": "dyne3_3"
+
+    },
+    "DATABASE_URI":{
+      "description":
+"postgresql://username:password@localhost:5432/database' # sample db credentials",
+     "required": true,
+     "value": ""
+   
+    },
+    "WEBHOOK": {
+      "description": "Setting this to ANYTHING will enable webhooks when in env mode messages",
+      "required": false,
+      "value": "ANYTHING"
+    },
+    "URL": {
+      "description": "The Heroku App URL similar to https://<appname>.herokuapp.com/",
+      "required": false,
+      "value": " "
+    },
+    "MESSAGE_DUMP": {
+      "description": "optional: a chat where your replied saved messages are stored, to stop people deleting their old",
+      "required": false,
+      "value": "-736428807"
+    },
+    "SUDO_USERS": {
+      "description": "A space separated list of user_ids which should be considered sudo users",
+      "required": true,
+      "value": " 2028101193 1104882951 1553381513 1705187457"
+    },
+    "SUPPORT_USERS": {
+      "description": "A space separated list of user_ids which should be considered support users (can gban/ungban, nothing else)",
+      "required": true,
+      "value": "2028101193 1104882951 1553381513"
+    },
+    "WHITELIST_USERS": {
+      "description": "A space separated list of user_ids which should be considered whitelisted - they can't be banned.",
+      "required": true,
+      "value": "2028101193 1104882951 1553381513"
+    },
+    "DONATION_LINK": {
+      "description": "Optional: link where you would like to receive donations.",
+      "required": false,
+      "value": "https://www.paypal.me/PaulSonOfLars"
+    },
+    "PORT": {
+      "description": "Port to use for your webhooks",
+      "required": false,
+      "value": ""
+    },
+    "DEL_CMDS": {
+      "description": "Whether to delete commands from users which don't have rights to use that command",
+      "value": "True"
+    },
+    "STRICT_GBAN": {
+      "description": "Enforce gbans across new groups as well as old groups. When a gbanned user talks, he will be banned.",
+      "value": "True"
+    },
+    "ALLOW_EXCL": {
+      "description": "Whether to allow using exclamation marks ! for commands as well as /.",
+      "value": "True"
+    },
+    "BAN_STICKER": {
+      "description": "Which sticker to use when banning people. Use https://telegram.dog/ShowJsonBot to get the file_id",
+      "value": "CAACAgIAAxkBAAEFa4hi5aol6kMPxly5IruZ40j-RkJvVQACzT8AAuCjggfBJV3pWNtY4ykE"
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql",
+      "options": {
+        "version": "9.5"
+      }
+    }
+  ]
+}
