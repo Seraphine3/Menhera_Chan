@@ -27,7 +27,7 @@ A Telegram group manager bot written in Python
 
 Only deploy this bot with heroku, if you lazy to make it.just search the bot in telegram and use it as it is 🙃
  
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Seraphine3/Menhera-Chan.git)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Seraphine3/Menhera_Chan.git)
 
 
 ## Special Credits
