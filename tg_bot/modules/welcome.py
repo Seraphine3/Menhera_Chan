@@ -8,7 +8,7 @@ from telegram.ext import MessageHandler, Filters, CommandHandler, run_async
 from telegram.utils.helpers import mention_markdown, mention_html, escape_markdown
 
 import tg_bot.modules.sql.welcome_sql as sql
-from tg_bot import dispatcher, OWNER_ID, LOGGER
+from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, SUPPORT_USERS, LOGGER
 from tg_bot.modules.helper_funcs.chat_status import user_admin
 from tg_bot.modules.helper_funcs.misc import build_keyboard, revert_buttons
 from tg_bot.modules.helper_funcs.msg_types import get_welcome_type
@@ -87,8 +87,18 @@ def new_member(bot: Bot, update: Update):
         for new_mem in new_members:
             # Give the owner a special welcome
             if new_mem.id == OWNER_ID:
-                update.effective_message.reply_text("Master is in the houseeee, let's get this party started!")
+                update.effective_message.reply_text("She's here, OMG ^•^")
                 continue
+
+            # Welcome Sudos 
+            elif new_mem.id in SUDO_USERS:
+                update.effective_message.reply_text("YaY.they joined °^°")
+                continue
+				#Generalised the diaster notices so that ppl check a user manually and engage with bot functions.
+            # Welcome Support
+            elif new_mem.id in SUPPORT_USERS:
+                update.effective_message.reply_text("Hey,How are you guys ?")
+                
 
             # Don't welcome yourself
             elif new_mem.id == bot.id:
@@ -127,8 +137,7 @@ def new_member(bot: Bot, update: Update):
 
                 keyboard = InlineKeyboardMarkup(keyb)
 
-                sent = send(update, res, keyboard,
-                            sql.DEFAULT_WELCOME.format(first=first_name))  # type: Optional[Message]
+                sent = send(update, res, keyboard, sql.DEFAULT_WELCOME.format(first=first_name))  # type: Optional[Message]
 
         prev_welc = sql.get_clean_pref(chat.id)
         if prev_welc:
@@ -154,7 +163,7 @@ def left_member(bot: Bot, update: Update):
 
             # Give the owner a special goodbye
             if left_mem.id == OWNER_ID:
-                update.effective_message.reply_text("RIP Master")
+                update.effective_message.reply_text("Mia.NOOO ~_~")
                 return
 
             # if media goodbye, use appropriate function for it
